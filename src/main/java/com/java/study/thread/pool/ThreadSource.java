@@ -4,8 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.concurrent.TimeUnit;
-
 /**
  * 线程资源对象
  *
@@ -26,10 +24,9 @@ public class ThreadSource extends Thread {
     @Override
     @SneakyThrows
     public void run() {
-        while (null != threadPoolTask || (threadPoolTask = threadPoolQueue.get()) != null) {
+        while (null != threadPoolTask || (threadPoolTask = threadPoolQueue.poll()) != null) {
             Thread.currentThread().setName(threadName);
             threadPoolTask.getRunnable().run();
-            TimeUnit.SECONDS.sleep(1);
             log.info("任务{}执行完成", threadPoolTask.getTaskName());
             this.threadPoolTask = null;
         }

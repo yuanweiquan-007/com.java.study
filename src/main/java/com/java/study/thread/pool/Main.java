@@ -2,6 +2,8 @@ package com.java.study.thread.pool;
 
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * @author yuanweiquan
  * @version 1.0
@@ -12,15 +14,28 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
         ThreadPool threadPool = new ThreadPool(2);
-        for (int i = 1; i <= 3; i++) {
+        for (int i = 1; i <= 5; i++) {
             int i1 = i;
-            threadPool.execute(new Runnable() {
-                @Override
-                public void run() {
-                    log.info("task{} 被执行", i1);
+            threadPool.execute(new ThreadPoolTask(() -> {
+                try {
+                    TimeUnit.SECONDS.sleep(1);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
-            });
+            }, "Task" + i1));
         }
+
+        TimeUnit.SECONDS.sleep(5);
+        threadPool.execute(new ThreadPoolTask(() -> {
+            try {
+                TimeUnit.SECONDS.sleep(1);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }, "Main主任务"));
+
+        System.exit(0);
+
     }
 
 }

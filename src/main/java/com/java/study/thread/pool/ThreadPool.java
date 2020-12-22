@@ -3,7 +3,6 @@ package com.java.study.thread.pool;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.HashSet;
-import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
@@ -28,10 +27,7 @@ public class ThreadPool {
 
     private ReentrantLock lock = new ReentrantLock();
 
-    private Condition isFull = lock.newCondition();
-    private Condition isEmpty = lock.newCondition();
-
-    private ThreadPoolQueue threadPoolQueue = new ThreadPoolQueue(queueSize, isFull, isEmpty);
+    private ThreadPoolQueue threadPoolQueue = new ThreadPoolQueue(queueSize);
 
     public ThreadPool(Integer coreSize) {
         this.coreSize = coreSize;
@@ -49,8 +45,6 @@ public class ThreadPool {
             }
             //核心线程数满了 加入队列
             threadPoolQueue.put(threadPoolTask);
-        } catch (Exception ex) {
-            ex.printStackTrace();
         } finally {
             lock.unlock();
         }
