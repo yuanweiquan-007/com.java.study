@@ -24,7 +24,7 @@ public class ThreadPoolQueue {
     private Condition isFull = lock.newCondition();
     private Condition isEmpty = lock.newCondition();
 
-    private BlockingQueue<ThreadPoolTask> threadPoolTasks = null;
+    private BlockingQueue<ThreadPoolTask> threadPoolTasks;
 
     public ThreadPoolQueue(int queueSize) {
         this.queueSize = queueSize;
@@ -49,6 +49,34 @@ public class ThreadPoolQueue {
     }
 
     @SneakyThrows
+    public void putWithRejectionPolicies(ThreadPoolTask threadPoolTask, ThreadPoolRejectionPolicies rejectionPolicies) {
+        //拒绝策略为空，走默认的put逻辑
+        if (null == rejectionPolicies) {
+            put(threadPoolTask);
+            return;
+        }
+
+        try {
+            lock.lock();
+            long waitTime = 2000;
+            while (waitTime > 0 && isFull()) {
+                waitTime = isFull.awaitNanos(waitTime);
+                if (waitTime <= 0) {
+                    log.info("任务{}加入队列时，队列已满，等待超时走拒绝策略", threadPoolTask.getTaskName());
+                    rejectionPolicies.reject(threadPoolTask);
+                    return;
+                }
+            }
+
+            threadPoolTasks.add(threadPoolTask);
+            log.info("任务{}加入等待队列成功", threadPoolTask.getTaskName());
+            isEmpty.signal();
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    @SneakyThrows
     public ThreadPoolTask poll() {
         try {
             lock.lock();
@@ -58,7 +86,7 @@ public class ThreadPoolQueue {
             }
 
             ThreadPoolTask threadPoolTask = threadPoolTasks.poll();
-            log.info("从队列中拿到任务 {}", threadPoolTask.getTaskName());
+            log.info("从队列中拿到任务{}", threadPoolTask.getTaskName());
             isFull.signal();
             return threadPoolTask;
         } finally {

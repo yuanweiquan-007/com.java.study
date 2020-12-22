@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
 public class Main {
 
     public static void main(String[] args) throws Exception {
-        ThreadPool threadPool = new ThreadPool(2);
+        ThreadPool threadPool = new ThreadPool(2, new ExceptionRejectionPolicies());
         for (int i = 1; i <= 5; i++) {
             int i1 = i;
             threadPool.execute(new ThreadPoolTask(() -> {
@@ -34,6 +34,7 @@ public class Main {
             }
         }, "Main主任务"));
 
+        TimeUnit.SECONDS.sleep(1);
         System.exit(0);
 
     }

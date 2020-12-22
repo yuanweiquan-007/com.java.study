@@ -15,7 +15,6 @@ public class ContinueForEach {
             }
             System.out.println(i);
         });
-
     }
 
 }

@@ -23,14 +23,30 @@ public class ThreadPool {
      */
     private Integer queueSize = 2;
 
+    /**
+     * 线程资源数
+     */
     private HashSet<ThreadSource> threadSources = new HashSet<>();
 
     private ReentrantLock lock = new ReentrantLock();
 
+    /**
+     * 拒绝策略
+     */
+    private ThreadPoolRejectionPolicies rejectionPolicies;
+
+    /**
+     * 任务队列
+     */
     private ThreadPoolQueue threadPoolQueue = new ThreadPoolQueue(queueSize);
 
     public ThreadPool(Integer coreSize) {
         this.coreSize = coreSize;
+    }
+
+    public ThreadPool(Integer coreSize, ThreadPoolRejectionPolicies rejectionPolicies) {
+        this.coreSize = coreSize;
+        this.rejectionPolicies = rejectionPolicies;
     }
 
     public void execute(ThreadPoolTask threadPoolTask) {
@@ -44,7 +60,7 @@ public class ThreadPool {
                 return;
             }
             //核心线程数满了 加入队列
-            threadPoolQueue.put(threadPoolTask);
+            threadPoolQueue.putWithRejectionPolicies(threadPoolTask, rejectionPolicies);
         } finally {
             lock.unlock();
         }
