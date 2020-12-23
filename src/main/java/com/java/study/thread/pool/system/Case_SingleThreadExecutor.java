@@ -6,7 +6,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
- * 单个线程的线程池
+ * 单个线程的线程池：
+ * 控制任务串行，和单个线程的区别在于，如果任务执行出现了异常并未捕获，会重新创建一个新的线程来执行任务
  *
  * @author yuanweiquan
  * @version 1.0
@@ -28,6 +29,18 @@ public class Case_SingleThreadExecutor {
                 }
             });
         }
+
+        executorService.execute(() -> {
+            log.info("main任务1执行完成");
+            int i = 1 / 0;
+        });
+
+        //证实：线程中任务出现异常，会创建一个新的线程执行后续的任务
+        executorService.execute(() -> {
+            log.info("main任务2执行完成");
+            int i = 1 / 0;
+        });
+
     }
 
 }
