@@ -40,7 +40,5 @@ public class Case_SingleThreadExecutor {
             log.info("main任务2执行完成");
             int i = 1 / 0;
         });
-
     }
-
 }

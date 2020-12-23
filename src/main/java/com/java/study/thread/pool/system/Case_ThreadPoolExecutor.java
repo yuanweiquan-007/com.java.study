@@ -76,11 +76,9 @@ public class Case_ThreadPoolExecutor {
      */
     class CustomRejectedHandler implements RejectedExecutionHandler {
         private Logger logger = LoggerFactory.getLogger(RejectedExecutionHandler.class);
-
         @Override
         public void rejectedExecution(Runnable r, ThreadPoolExecutor executor) {
             logger.info("队列已满，走自定义拒绝策略，丢弃任务");
         }
     }
-
 }

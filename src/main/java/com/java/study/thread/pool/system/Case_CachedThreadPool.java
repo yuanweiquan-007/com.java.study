@@ -29,9 +29,6 @@ public class Case_CachedThreadPool {
 
             Thread.sleep(10);//演示调用间隔
         }
-
         System.exit(0);
-
     }
-
 }
