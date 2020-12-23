@@ -1,4 +1,4 @@
-package com.java.study.thread.pool;
+package com.java.study.thread.pool.custom;
 
 /**
  * 拒绝策略异常

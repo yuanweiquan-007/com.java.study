@@ -1,4 +1,4 @@
-package com.java.study.thread.pool;
+package com.java.study.thread.pool.custom;
 
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;

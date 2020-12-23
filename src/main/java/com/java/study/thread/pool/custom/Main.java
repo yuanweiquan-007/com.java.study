@@ -1,4 +1,4 @@
-package com.java.study.thread.pool;
+package com.java.study.thread.pool.custom;
 
 import lombok.extern.slf4j.Slf4j;
 
