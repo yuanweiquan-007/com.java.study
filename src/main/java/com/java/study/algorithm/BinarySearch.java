@@ -1,4 +1,4 @@
-package com.java.study.suanfa;
+package com.java.study.algorithm;
 
 import java.util.Arrays;
 import java.util.Comparator;

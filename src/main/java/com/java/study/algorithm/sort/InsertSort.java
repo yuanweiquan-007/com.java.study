@@ -1,4 +1,4 @@
-package com.java.study.suanfa.sort;
+package com.java.study.algorithm.sort;
 
 import java.util.Arrays;
 import java.util.List;
