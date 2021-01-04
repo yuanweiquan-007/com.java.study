@@ -24,7 +24,6 @@ public class Case_ScheduledThreadPoolExecutor {
         scheduleWithFixedDelay(executor);
 
         TimeUnit.SECONDS.sleep(10);
-        System.exit(0);
     }
 
     /**

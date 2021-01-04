@@ -20,9 +20,16 @@ public class Case_move {
     private static final int TERMINATED = 3 << COUNT_BITS;//011
 
     public static void main(String[] args) throws Exception {
+
         System.out.println("1的二进制：" + Integer.toBinaryString(1));
+
         System.out.println("-1的二进制：" + Integer.toBinaryString(-1));
-        System.out.println(Integer.toBinaryString(-1 << 29));//实际操作时，使用的是补码，因此结果为11100000000000000000000000000000
+
+        System.out.println("-1左移29位：" + Integer.toBinaryString(-1 << 29));//实际操作时，使用的是补码，因此结果为11100000000000000000000000000000
+
+        //无符号右移高位补0
+        System.out.println("-1无符号右移10位：" + Integer.toBinaryString(-1 >>> 10));
+
         System.out.println(Integer.toBinaryString(ctlOf(RUNNING, 0)));
     }
 
