@@ -11,7 +11,7 @@ import java.net.NetworkInterface;
  * @date 2021/1/4 11:21 上午
  */
 @Slf4j
-public class Case_1 {
+public class Case_NetworkInterface {
 
     public static void main(String[] args) throws Exception {
 
