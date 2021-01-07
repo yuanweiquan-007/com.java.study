@@ -1,4 +1,4 @@
-package com.java.study.netbase;
+package com.java.study.network;
 
 import lombok.extern.slf4j.Slf4j;
 
